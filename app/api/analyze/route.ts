@@ -89,7 +89,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(JSON.parse(jsonMatch[0]));
   } catch (error) {
     console.error("Analysis error:", error);
-    const message = error instanceof Error ? error.message : "分析中にエラーが発生しました";
+    let message = "分析中にエラーが発生しました。もう一度お試しください。";
+    const errorStr = error instanceof Error ? error.message : String(error);
+    if (errorStr.includes("credit balance") || errorStr.includes("too low") || errorStr.includes("billing")) {
+      message = "APIのクレジットが不足しています。しばらくお待ちください。";
+    } else if (errorStr.includes("invalid_api_key") || errorStr.includes("authentication")) {
+      message = "APIキーが無効です。";
+    } else if (errorStr.includes("rate_limit")) {
+      message = "アクセスが集中しています。少し待ってから再度お試しください。";
+    } else if (errorStr.includes("overloaded")) {
+      message = "AIサーバーが混雑中です。しばらくしてから再度お試しください。";
+    }
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
