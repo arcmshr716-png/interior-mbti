@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAFAF7;
+  --text: #1A1A1A;
+  --primary: #C8965A;
+  --forest: #2D4A3E;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.type-badge {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.2em;
+}
+
+.score-bar {
+  transition: width 1s ease-out;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #e8d5b7 25%, #f5ede0 50%, #e8d5b7 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
